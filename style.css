@@ -52,6 +52,14 @@ button:hover {
   background: #0056b3;
 }
 
+button.danger {
+  background: #dc3545;
+}
+
+button.danger:hover {
+  background: #b52a35;
+}
+
 .output {
   margin-top: 20px;
   padding: 15px;
@@ -66,4 +74,14 @@ button:hover {
 
 ul {
   padding-left: 20px;
+}
+
+li button {
+  background: red;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 3px 6px;
+  margin-left: 10px;
+  cursor: pointer;
 }
