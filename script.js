@@ -14,7 +14,6 @@ function addExpense() {
   }
 
   const expense = parseFloat(prompt(`Введіть суму витрат для категорії "${category}" (грн):`));
-
   if (isNaN(expense) || expense <= 0) {
     alert("Будь ласка, введіть правильну суму!");
     return;
@@ -33,20 +32,23 @@ function displayExpenses() {
     output += `
       <li>
         ${item.category}: ${item.amount} грн
-        <button onclick="deleteExpense(${index})">❌</button>
+        <button onclick='deleteExpense(${index})'>❌</button>
       </li>
     `;
     total += item.amount;
   });
 
   output += `</ul><strong>Загальні витрати: ${total} грн</strong>`;
+  if (expenses.length === 0) output = ""; // Якщо немає витрат, очищаємо вивід
   document.getElementById("output").innerHTML = output;
 }
 
 // Видалення окремої витрати
 function deleteExpense(index) {
-  expenses.splice(index, 1);
-  displayExpenses();
+  if (index >= 0 && index < expenses.length) {
+    expenses.splice(index, 1);
+    displayExpenses();
+  }
 }
 
 // Повне очищення всіх даних
@@ -58,7 +60,7 @@ function resetAll() {
   }
 }
 
-// Підрахунок бюджету через prompt
+// Підрахунок бюджету
 function calculateBudget() {
   income = parseFloat(prompt("Введіть ваш місячний дохід (грн):"));
 
@@ -91,12 +93,13 @@ function calculateBudget() {
     <p class="${cssClass}"><strong>${message}</strong></p>
   `;
 
-  output += "<hr><h4>Витрати по категоріях:</h4><ul>";
-  for (let item of expenses) {
-    output += `<li>${item.category}: ${item.amount} грн</li>`;
+  if (expenses.length > 0) {
+    output += "<hr><h4>Витрати по категоріях:</h4><ul>";
+    expenses.forEach(item => {
+      output += `<li>${item.category}: ${item.amount} грн</li>`;
+    });
+    output += "</ul>";
   }
-  output += "</ul>";
 
   document.getElementById("output").innerHTML = output;
 }
-
