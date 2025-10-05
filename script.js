@@ -3,6 +3,7 @@ let expenses = [];
 
 document.getElementById("addBtn").addEventListener("click", addExpense);
 document.getElementById("calcBtn").addEventListener("click", calculateBudget);
+document.getElementById("resetBtn").addEventListener("click", resetAll);
 
 // Додавання витрат
 function addExpense() {
@@ -26,13 +27,34 @@ function displayExpenses() {
   let output = "<h3>Витрати по категоріях:</h3><ul>";
   let total = 0;
 
-  expenses.forEach(item => {
-    output += `<li>${item.category}: ${item.amount} грн</li>`;
+  expenses.forEach((item, index) => {
+    output += `
+      <li>
+        ${item.category}: ${item.amount} грн
+        <button onclick="deleteExpense(${index})">❌</button>
+      </li>
+    `;
     total += item.amount;
   });
 
   output += `</ul><strong>Загальні витрати: ${total} грн</strong>`;
   document.getElementById("output").innerHTML = output;
+}
+
+// Видалення окремої витрати
+function deleteExpense(index) {
+  expenses.splice(index, 1);
+  displayExpenses();
+}
+
+// Повне очищення всіх даних
+function resetAll() {
+  if (confirm("Ви впевнені, що хочете видалити всі дані?")) {
+    income = 0;
+    expenses = [];
+    document.getElementById("income").value = "";
+    document.getElementById("output").innerHTML = "";
+  }
 }
 
 // Підрахунок бюджету
