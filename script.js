@@ -5,20 +5,22 @@ document.getElementById("addBtn").addEventListener("click", addExpense);
 document.getElementById("calcBtn").addEventListener("click", calculateBudget);
 document.getElementById("resetBtn").addEventListener("click", resetAll);
 
-// Додавання витрат
+// Додавання витрат через prompt
 function addExpense() {
-  const category = document.getElementById("category").value;
-  const expense = parseFloat(document.getElementById("expense").value);
+  const category = prompt("Введіть назву категорії витрат:");
+  if (!category) {
+    alert("Назву категорії не введено!");
+    return;
+  }
 
-  if (category === "" || isNaN(expense) || expense <= 0) {
-    alert("Будь ласка, введіть правильні дані!");
+  const expense = parseFloat(prompt(`Введіть суму витрат для категорії "${category}" (грн):`));
+
+  if (isNaN(expense) || expense <= 0) {
+    alert("Будь ласка, введіть правильну суму!");
     return;
   }
 
   expenses.push({ category: category, amount: expense });
-  document.getElementById("category").value = "";
-  document.getElementById("expense").value = "";
-
   displayExpenses();
 }
 
@@ -52,14 +54,13 @@ function resetAll() {
   if (confirm("Ви впевнені, що хочете видалити всі дані?")) {
     income = 0;
     expenses = [];
-    document.getElementById("income").value = "";
     document.getElementById("output").innerHTML = "";
   }
 }
 
-// Підрахунок бюджету
+// Підрахунок бюджету через prompt
 function calculateBudget() {
-  income = parseFloat(document.getElementById("income").value);
+  income = parseFloat(prompt("Введіть ваш місячний дохід (грн):"));
 
   if (isNaN(income) || income <= 0) {
     alert("Введіть коректний місячний дохід!");
@@ -98,3 +99,4 @@ function calculateBudget() {
 
   document.getElementById("output").innerHTML = output;
 }
+
